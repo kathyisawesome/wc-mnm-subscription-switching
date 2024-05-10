@@ -114,7 +114,7 @@ if ( ! class_exists( 'WC_MNM_Subscription_Editing' ) ) :
 			// Modify the edit form.
 			add_action( 'wc_mnm_edit_container_order_item_in_shop_subscription', array( __CLASS__, 'attach_hooks' ), 0, 4 );
 
-			// Reapply variable product yschemes from order item.
+			// Reapply variable product schemes from order item.
 			add_filter( 'wc_mnm_get_product_from_edit_order_item', [ __CLASS__, 'reapply_schemes' ], 100, 4 );
 
 			// Restore the subscription state of a product fetched via ajax, using an order item as reference.
