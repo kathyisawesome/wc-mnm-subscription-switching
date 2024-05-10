@@ -110,7 +110,29 @@
 									let type = $(this).data( 'product_type' ) || 'mix-and-match';
 
 									// Launch the Mix and Match validation scrtips. Share the current script source with mini-extensions.
-									$(this).trigger( `wc-mnm-initialize.${type}` ).data( 'extra_data', { 'order_item_id': item_id } );
+									$(this).trigger( `wc-mnm-initialize.${type}` ).data( 'extra_data', { 'order_item_id': item_id, 'order_id': subscription_id } );
+
+									// Filter the product route's additional parameters.
+									wp.hooks.addFilter( 'wc.mnm.container-route-params', 'wc-mix-and-match', ( queryArgs ) => {
+										const params = Object.fromEntries(url.searchParams.entries() ); // All key/value pairs from update button link URL.
+										return {
+											...queryArgs,
+											...params,
+											...{
+												'source': 'myaccount',
+												'order_item_id': item_id,
+												'order_id': subscription_id
+											}
+										};
+									} );
+
+									// Allow other non-jQuery scripts to hook in: variable mnm, etc.
+									wp.hooks.doAction( `wc.mnm.initialize.${type}`, {
+										'source': 'myaccount',
+										'order_item_id': item_id,
+										'order_id': subscription_id
+									} );
+
 								} );
 
 							}
@@ -165,6 +187,25 @@
 			let $editRow = $(this).closest( '.wc-mnm-subscription-edit-row' );
 			let Form     = $(this).wc_get_mnm_script();
 
+			let data = {
+				dataType       : 'json',
+				order_id       : $editRow.data( 'subscription_id' ),
+				subscription_id: $editRow.data( 'subscription_id' ),
+				variation_id   : 'undefined' !== typeof $editRow.data( 'variation_id' ) ? $editRow.data( 'variation_id' ) : 0,
+				item_id        : $editRow.data( 'item_id' ),
+				security       : wc_mnm_subscription_editing_params.edit_container_nonce,
+				source         : 'myaccount'
+			}
+
+			let extra_data = { 
+				config  : Form ? Form.api.get_container_config() : [],
+			};
+
+			/**
+			 * Filter the data sent to the server when updating a container order item.
+			 */
+			extra_data = wp.hooks.applyFilters( 'wc.mnm.container.update_order_item_data', extra_data, this );
+
 			// If currently processing... or clicking on same item, quit now.
 			if ( $editRow.is( '.processing' ) ) {
 				return false;
@@ -181,14 +222,9 @@
 			$.ajax( {
 				url: wc_mnm_subscription_editing_params.wc_ajax_url.toString().replace( '%%endpoint%%', 'mnm_update_container_order_item' ),
 				type: 'POST',
-				data: {
-					order_id       : $editRow.data( 'subscription_id' ),
-					subscription_id: $editRow.data( 'subscription_id' ),
-					variation_id   : 'undefined' !== typeof $editRow.data( 'variation_id' ) ? $editRow.data( 'variation_id' ) : 0,
-					item_id        : $editRow.data( 'item_id' ),
-					security       : wc_mnm_subscription_editing_params.edit_container_nonce,
-					config         : Form.api.get_container_config(),
-					source         : 'myaccount'
+				data: { 
+					...data,
+					...extra_data
 				},
 				success: function( response ) {
 
@@ -259,4 +295,3 @@
 	new WC_MNM_Subscription_Editing( $(this) );
 	  
 } ) ( jQuery );
-  
