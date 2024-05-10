@@ -81,7 +81,6 @@
 				data: {
 					item_id     : item_id,
 					order_id    : subscription_id,
-					container_id: variation_id,
 					security    : wc_mnm_subscription_editing_params.edit_container_nonce,
 					source      : 'myaccount'
 				},
