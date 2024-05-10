@@ -11,10 +11,10 @@
  * Text Domain: wc-mnm-subscription-editing
  * Domain Path: /languages
  * 
- * WC requires at least: 7.0.0
- * WC tested up to: 7.3.0
- * Requires at least: 6.0.0
- * Requires PHP: 7.2
+ * WC requires at least: 8.0.0
+ * WC tested up to: 8.9.0
+ * Requires at least: 6.1.0
+ * Requires PHP: 7.4
  * 
  * GitHub Plugin URI: https://github.com/kathyisawesome/wc-mnm-subscription-editing
  * Primary Branch: trunk
@@ -36,7 +36,7 @@ if ( ! class_exists( 'WC_MNM_Subscription_Editing' ) ) :
 		 * constants
 		 */
 		const VERSION = '1.0.0-rc.8';
-		const REQ_MNM_VERSION = '2.4.0-beta.5';
+		const REQ_MNM_VERSION = '2.7.0';
 
 		/**
 		 * var string $notice
@@ -56,7 +56,7 @@ if ( ! class_exists( 'WC_MNM_Subscription_Editing' ) ) :
 		 */
 		public static function init() {
 
-			// MNM 2.1+ check.
+			// MNM check.
 			if ( ! function_exists( 'wc_mix_and_match' ) || version_compare( wc_mix_and_match()->version, self::REQ_MNM_VERSION ) < 0 ) {
 				self::$notice = __( 'WooCommerce Mix and Match Subscription Editing requires at least WooCommerce Mix and Match Products version <strong>%1$s</strong>. %2$s', 'wc-mnm-subscription-editing' );
 				if ( ! function_exists( 'wc_mix_and_match' ) ) {
