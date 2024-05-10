@@ -86,8 +86,8 @@ if ( ! class_exists( 'WC_MNM_Subscription_Editing' ) ) :
 			// Load translation files.
 			add_action( 'init', [ __CLASS__, 'load_plugin_textdomain' ] );
 
-			// Declare HPOS compatibility.
-			add_action( 'before_woocommerce_init', [ __CLASS__, 'declare_hpos_compatibility' ] );
+			// Declare Core WooCommerce features compatibility.
+			add_action( 'before_woocommerce_init', [ __CLASS__, 'declare_features_compatibility' ] );
 
 			// Register Scripts.
 			add_action( 'wp_enqueue_scripts', [ __CLASS__, 'register_scripts' ], 20 );
@@ -152,15 +152,19 @@ if ( ! class_exists( 'WC_MNM_Subscription_Editing' ) ) :
 
 
 		/**
-		 * Declare HPOS (Custom Order tables) compatibility.
+		 * Declare Features compatibility.
 		 */
-		public static function declare_hpos_compatibility() {
+		public static function declare_features_compatibility() {
 
 			if ( ! class_exists( 'Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
 				return;
 			}
 
+			// HPOS (Custom Order tables.
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', plugin_basename( __FILE__ ), true );
+
+			// Cart and Checkout Blocks.
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'cart_checkout_blocks', plugin_basename( __FILE__ ), true );
 		}
 
 		/*-----------------------------------------------------------------------------------*/
