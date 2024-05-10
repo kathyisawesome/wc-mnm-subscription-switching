@@ -117,9 +117,6 @@ if ( ! class_exists( 'WC_MNM_Subscription_Editing' ) ) :
 			// Force variations to hide links.
 			// add_action( 'wc_mnm_variation_add_to_cart', [ __CLASS__, 'force_edit_variation_styles' ], 0 );
 
-			// Variable Mix and Match performance boosts.
-			add_filter( 'wc_mnm_eager_load_variations', [ __CLASS__, 'eager_load_variations' ] );
-
 			// Reapply variable product yschemes from order item.
 			add_filter( 'wc_mnm_get_product_from_edit_order_item', [ __CLASS__, 'reapply_schemes' ], 100, 4 );
 
