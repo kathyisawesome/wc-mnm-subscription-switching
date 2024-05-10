@@ -49,7 +49,6 @@
 
 			let subscription_id = url.searchParams.get( 'switch-subscription' );
 			let item_id         = url.searchParams.get( 'item' );
-			let variation_id    = url.searchParams.get( 'variation_id' );
 
 			let $content        = $( '.woocommerce-MyAccount-content' );
 			let $tbody          = $content.find( '.shop_table.order_details tbody' );
@@ -109,7 +108,9 @@
 
 								$result.find( 'form' ).each( function() {
 									let type = $(this).data( 'product_type' ) || 'mix-and-match';
-									$(this).trigger( `wc-mnm-initialize.${type}` ).data( 'source', 'myaccount' ).data( 'extra_data', { order_item_id: item_id } );
+
+									// Launch the Mix and Match validation scrtips. Share the current script source with mini-extensions.
+									$(this).trigger( `wc-mnm-initialize.${type}` ).data( 'extra_data', { 'order_item_id': item_id } );
 								} );
 
 							}
