@@ -80,6 +80,7 @@
 				type: 'POST',
 				data: {
 					item_id     : item_id,
+					dataType    : 'json',
 					order_id    : subscription_id,
 					security    : wc_mnm_subscription_editing_params.edit_container_nonce,
 					source      : 'myaccount'
