@@ -110,7 +110,12 @@
 									let type = $(this).data( 'product_type' ) || 'mix-and-match';
 
 									// Launch the Mix and Match validation scrtips. Share the current script source with mini-extensions.
-									$(this).trigger( `wc-mnm-initialize.${type}` ).data( 'extra_data', { 'order_item_id': item_id, 'order_id': subscription_id } );
+									$(this).trigger( `wc-mnm-initialize.${type}` ).data( 'extra_data',
+										{
+											'order_item_id': item_id,
+											'order_id': subscription_id
+										}
+									);
 
 									// Filter the product route's additional parameters.
 									wp.hooks.addFilter( 'wc.mnm.container-route-params', 'wc-mix-and-match', ( queryArgs ) => {
