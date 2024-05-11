@@ -200,7 +200,7 @@
 				item_id        : $editRow.data( 'item_id' ),
 				security       : wc_mnm_subscription_editing_params.edit_container_nonce,
 				source         : 'myaccount'
-			}
+			};
 
 			let extra_data = { 
 				config  : Form ? Form.api.get_container_config() : [],
