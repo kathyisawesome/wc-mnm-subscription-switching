@@ -26,7 +26,7 @@
 			$( '.woocommerce-MyAccount-content' ).on( 'click.wc-mnm-subscription-editing', '.wc-mnm-cancel-edit', this.cancel );
 			$( '.woocommerce-MyAccount-content' ).on( 'submit.wc-mnm-subscription-editing', '.mnm_form, .variable_mnm_form', this.updateSubscription );
 
-			$( '.woocommerce-MyAccount-content' ).on( 'click.zowc-mnm-subscription-editing', '.mnm_child_product_image img', this.cancelClick );
+			$( '.woocommerce-MyAccount-content' ).on( 'click.wc-mnm-subscription-editing', '.mnm_child_product_image img', this.cancelClick );
 
 			$( document.body ).on( 'wc_mnm_subscription_updated_fragments_refreshed', this.scroll );
 			$( document.body ).on( 'wc_mnm_edit_container_in_shop_subscription_cancel', this.scroll );
