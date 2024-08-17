@@ -249,21 +249,38 @@ if ( ! class_exists( 'WC_MNM_Subscription_Editing' ) ) :
 		 */
 		public static function maybe_load_scripts( $item_id, $order_item, $subscription ) {
 
-			if ( ! self::$is_enqueued && wc_mnm_is_product_container_type( $order_item->get_product() ) ) {
+			if ( wc_mnm_is_container_order_item( $order_item ) ) {
 
-				WC_MNM_Ajax::load_edit_scripts();
-	
-				if ( class_exists( 'WC_MNM_Variable' ) ) {
-					WC_MNM_Variable::get_instance()->load_scripts();
+				if ( ! self::$is_enqueued ) {
+
+					WC_MNM_Ajax::load_edit_scripts();
+		
+					if ( class_exists( 'WC_MNM_Variable' ) ) {
+						WC_MNM_Variable::get_instance()->load_scripts();
+					}
+
+					wp_enqueue_script( 'jquery-blockui' );
+					wp_enqueue_script( 'wc-mnm-subscription-editing' );
+
+					self::$is_enqueued = true;
+
+					do_action( 'wc_mnm_subscription_editing_enqueue_scripts' );
 				}
 
-				wp_enqueue_script( 'jquery-blockui' );
-				wp_enqueue_script( 'wc-mnm-subscription-editing' );
+				// Stash any VMNM products for preloading Store API responses in footer.
+				$preloads = WC_MNM_Helpers::cache_get( 'wcMNMVariablePreloads' );
 
-				self::$is_enqueued = true;
+				if ( $order_item->get_variation_id() ) { 
+					if ( is_array( $preloads ) ) {
+						$preloads[] = $order_item->get_product_id();
+					} elseif ( null === $preloads ) {
+						$preloads = [ $order_item->get_product_id() ];
+					}
+				}	
 
-				do_action( 'wc_mnm_subscription_editing_enqueue_scripts' );
-			}
+				WC_MNM_Helpers::cache_set( 'wcMNMVariablePreloads', $preloads );
+
+			}	
 
 		}
 
