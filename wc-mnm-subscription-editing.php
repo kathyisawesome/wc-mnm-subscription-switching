@@ -456,15 +456,6 @@ if ( ! class_exists( 'WC_MNM_Subscription_Editing' ) ) :
 		/*-----------------------------------------------------------------------------------*/
 
 		/**
-		 * Disable eager loading of mix and match HTML for variations in editing context.
-		 * 
-		 * @param bool $eager_load
-		 */
-		public static function eager_load_variations( $eager_load ) {
-			return doing_action( 'wc_ajax_mnm_get_edit_container_order_item_form' ) ? false : $eager_load;
-		}		
-	
-		/**
 		 * Reapply schemes to parent product.
 		 * 
 		 * @param obj WC_Product $product
