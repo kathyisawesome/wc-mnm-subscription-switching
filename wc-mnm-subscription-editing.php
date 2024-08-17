@@ -137,9 +137,6 @@ if ( ! class_exists( 'WC_MNM_Subscription_Editing' ) ) :
 			// Tell APFS that we have forced subscription.
 			add_action( 'wc_ajax_mnm_get_edit_container_order_item_form', [ __CLASS__, 'set_forced_subscription' ], 0 );
 
-			// Modify single add to cart button text in the Store API context.
-			add_action( 'woocommerce_product_single_add_to_cart_text', [ __CLASS__, 'single_add_to_cart_text' ], 20, 2 );
-
 		}
 
 		/*-----------------------------------------------------------------------------------*/
@@ -419,36 +416,19 @@ if ( ! class_exists( 'WC_MNM_Subscription_Editing' ) ) :
 
 				// Change button texts and validation context.
 				add_filter( 'wc_mnm_edit_container_button_text', [ __CLASS__, 'update_container_text' ] );
-			
+
 			}
 			
 		}
 
 		/**
-		 * Modify button text.
+		 * Modify edit button text- only applicable when ajax loading edit form in cart.
 		 * 
 		 * @param  string $text
 		 * @return string
 		 */
 		public static function update_container_text( $text = '' ) {
 			return esc_html__( 'Update subscription', 'wc-mnm-subscription-editing' );
-		}
-
-		/**
-		 * Need to change the single add to cart text in the Store API context (needed by Mobile Footer extension).
-		 *
-		 * @param [string] $text
-		 * @param [WC_Product] $product
-		 * @return string
-		 */
-		public static function single_add_to_cart_text( $text, $product ) {
-
-			if ( wc_mnm_is_product_container_type( $product ) && isset( $_REQUEST['switch-subscription'] ) ) {
-				$order_item = isset( $_REQUEST['item'] ) ? new WC_Order_Item_Product( $_REQUEST['item'] ) : false;
-				$order = wc_get_order( $_REQUEST['switch-subscription'] );
-				$text = apply_filters( 'wc_mnm_edit_container_button_text', __( 'Update subscription', 'wc-mnm-subscription-editing' ), $order_item, $order );
-			}
-			return $text;
 		}
 
 		/*-----------------------------------------------------------------------------------*/
