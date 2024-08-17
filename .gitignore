@@ -6,3 +6,4 @@ assets/js/frontend/*.min.js
 assets/js/backend/*.min.js
 languages/
 .vscode/
+*.bak
