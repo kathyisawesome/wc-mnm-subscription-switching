@@ -26,6 +26,8 @@
 			$( '.woocommerce-MyAccount-content' ).on( 'click.wc-mnm-subscription-editing', '.wc-mnm-cancel-edit', this.cancel );
 			$( '.woocommerce-MyAccount-content' ).on( 'submit.wc-mnm-subscription-editing', '.mnm_form, .variable_mnm_form', this.updateSubscription );
 
+			// Cancel any clicking out. @todo - currently cannot figure out how to remove it from source.
+			$( '.woocommerce-MyAccount-content' ).on( 'click.wc-mnm-subscription-editing', '.mnm_item .product-details a', this.cancelClick );
 			$( '.woocommerce-MyAccount-content' ).on( 'click.wc-mnm-subscription-editing', '.mnm_child_product_image img', this.cancelClick );
 
 			$( document.body ).on( 'wc_mnm_subscription_updated_fragments_refreshed', this.scroll );
